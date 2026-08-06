@@ -1,3 +1,5 @@
 runner/TestRunner.class
+CheckDropdown.class
+CheckCart.class
 hooks/Hooks.class
 steps/CasekaroSteps.class
