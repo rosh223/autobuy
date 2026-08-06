@@ -73,9 +73,10 @@ public class CasekaroPage {
         searchInput.pressSequentially(specificSearch, new Locator.PressSequentiallyOptions().setDelay(100));
         page.waitForTimeout(3000);
         
-        // Shopify's predictive search triggers on ALL search inputs. We MUST press Escape to close the massive 
-        // global dropdown that overlays the screen, otherwise Playwright will click a global autocomplete link!
-        page.keyboard().press("Escape");
+        // Shopify's predictive search triggers on ALL search inputs. We MUST dismiss it so it doesn't intercept clicks.
+        // DO NOT press "Escape" because that clears input[type="search"] natively, which resets the filtered list!
+        // Instead, click outside to close the global dropdown safely.
+        page.mouse().click(10, 10);
         page.waitForTimeout(1000);
         System.out.println("✅ Searched for '" + specificSearch + "' in specific local filter box");
     }
@@ -172,21 +173,19 @@ public class CasekaroPage {
         System.out.println("                     CART ITEM DETAILS");
         System.out.println("======================================================================\n");
         
-        page.waitForSelector("a[href*='/products/']:visible", new Page.WaitForSelectorOptions().setTimeout(10000));
-        Locator productLinks = page.locator("a[href*='/products/']:visible");
-        java.util.HashSet<String> printedLinks = new java.util.HashSet<>();
+        page.waitForSelector("cart-remove-button, button:has-text('Remove'), a:has-text('Remove'), .cart-item", new Page.WaitForSelectorOptions().setTimeout(10000));
         
-        int itemIndex = 1;
-        for (int i = 0; i < productLinks.count(); i++) {
-            String href = productLinks.nth(i).getAttribute("href");
-            if (href == null || printedLinks.contains(href)) continue;
-            printedLinks.add(href);
-            
-            String rowData = (String) productLinks.nth(i).evaluate("el => {" +
-                "let parent = el.closest('tr, cart-item, .cart-item, .cart__row, [data-cart-item], .drawer__item, li, .item');" +
-                "if (!parent && el.parentElement && el.parentElement.parentElement) parent = el.parentElement.parentElement;" +
-                "if (!parent) return el.textContent + '|||' + el.href;" +
-                "return (parent.textContent || parent.innerText) + '|||' + el.href;" +
+        Locator cartRows = page.locator("cart-remove-button, button:has-text('Remove'), a:has-text('Remove')");
+        if (cartRows.count() == 0) cartRows = page.locator(".cart-item, .drawer__item");
+        
+        for (int i = 0; i < cartRows.count(); i++) {
+            String rowData = (String) cartRows.nth(i).evaluate("el => {" +
+                "let parent = el.closest('tr, cart-item, .cart-item, .cart__row, [data-cart-item], .drawer__item, li');" +
+                "if (!parent) parent = el.parentElement.parentElement;" +
+                "if (!parent) parent = el;" +
+                "let linkEl = parent.querySelector('a[href*=\"/products/\"]');" +
+                "let link = linkEl ? linkEl.href : 'Unknown';" +
+                "return (parent.textContent || parent.innerText) + '|||' + link;" +
             "}");
             
             String[] parts = rowData.split("\\|\\|\\|");
@@ -202,14 +201,13 @@ public class CasekaroPage {
             java.util.regex.Matcher m = java.util.regex.Pattern.compile("₹\\s*[0-9,.]+").matcher(text);
             if (m.find()) {
                 price = m.group();
-                if (m.find()) price = m.group();
+                if (m.find()) price = m.group(); // Get real price if first is strikethrough
             }
 
-            System.out.println("📦 Item " + itemIndex + ":");
+            System.out.println("📦 Item " + (i + 1) + ":");
             System.out.println("   Material : " + material);
             System.out.println("   Price    : " + price);
             System.out.println("   Link     : " + link + "\n");
-            itemIndex++;
         }
     }
 }
