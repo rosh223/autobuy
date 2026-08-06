@@ -1,21 +1,21 @@
 -------------------------------------------------------------------------------
 Test set: runner.TestRunner
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 39.94 s <<< FAILURE! -- in runner.TestRunner
-Casekaro Cart Functionality.Add three different material variants of a phone case to the cart -- Time elapsed: 39.71 s <<< ERROR!
+Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 74.04 s <<< FAILURE! -- in runner.TestRunner
+Casekaro Cart Functionality.Add three different material variants of a phone case to the cart -- Time elapsed: 73.81 s <<< ERROR!
 com.microsoft.playwright.TimeoutError: 
 Error {
   message='Timeout 30000ms exceeded.
   name='TimeoutError
   stack='TimeoutError: Timeout 30000ms exceeded.
-    at ProgressController.run (/private/var/folders/dz/52ys4n551gzc_p0zn75phrv40000gn/T/playwright-java-6951284551139637895/package/lib/server/progress.js:78:26)
-    at Frame.waitForSelector (/private/var/folders/dz/52ys4n551gzc_p0zn75phrv40000gn/T/playwright-java-6951284551139637895/package/lib/server/frames.js:619:23)
-    at FrameDispatcher.waitForSelector (/private/var/folders/dz/52ys4n551gzc_p0zn75phrv40000gn/T/playwright-java-6951284551139637895/package/lib/server/dispatchers/frameDispatcher.js:106:103)
-    at FrameDispatcher._handleCommand (/private/var/folders/dz/52ys4n551gzc_p0zn75phrv40000gn/T/playwright-java-6951284551139637895/package/lib/server/dispatchers/dispatcher.js:94:40)
-    at DispatcherConnection.dispatch (/private/var/folders/dz/52ys4n551gzc_p0zn75phrv40000gn/T/playwright-java-6951284551139637895/package/lib/server/dispatchers/dispatcher.js:361:39)
+    at ProgressController.run (/private/var/folders/dz/52ys4n551gzc_p0zn75phrv40000gn/T/playwright-java-16190611296885843121/package/lib/server/progress.js:78:26)
+    at Frame.waitForSelector (/private/var/folders/dz/52ys4n551gzc_p0zn75phrv40000gn/T/playwright-java-16190611296885843121/package/lib/server/frames.js:619:23)
+    at FrameDispatcher.waitForSelector (/private/var/folders/dz/52ys4n551gzc_p0zn75phrv40000gn/T/playwright-java-16190611296885843121/package/lib/server/dispatchers/frameDispatcher.js:106:103)
+    at FrameDispatcher._handleCommand (/private/var/folders/dz/52ys4n551gzc_p0zn75phrv40000gn/T/playwright-java-16190611296885843121/package/lib/server/dispatchers/dispatcher.js:94:40)
+    at DispatcherConnection.dispatch (/private/var/folders/dz/52ys4n551gzc_p0zn75phrv40000gn/T/playwright-java-16190611296885843121/package/lib/server/dispatchers/dispatcher.js:361:39)
 }
 Call log:
-- waiting for locator("text=Phone cases by model").first()
+- waiting for locator("a[href*='/products/']").first().first()
 
 	at com.microsoft.playwright.impl.WaitableResult.get(WaitableResult.java:52)
 	at com.microsoft.playwright.impl.ChannelOwner.runUntil(ChannelOwner.java:120)
@@ -31,20 +31,20 @@ Call log:
 	at com.microsoft.playwright.impl.LocatorImpl.withElement(LocatorImpl.java:84)
 	at com.microsoft.playwright.impl.LocatorImpl.scrollIntoViewIfNeeded(LocatorImpl.java:476)
 	at com.microsoft.playwright.Locator.scrollIntoViewIfNeeded(Locator.java:4378)
-	at steps.CasekaroSteps.i_search_for_in_the_phone_models_search_box(CasekaroSteps.java:44)
-	at ✽.I search for "Apple" in the phone models search box(file:///Users/roshansingh/Developer/autobuy/src/test/resources/features/CasekaroCart.feature:6)
+	at steps.CasekaroSteps.i_click_on_the_first_product_card(CasekaroSteps.java:168)
+	at ✽.I click "Choose Options" on the First Product Card(file:///Users/roshansingh/Developer/autobuy/src/test/resources/features/CasekaroCart.feature:10)
 Caused by: com.microsoft.playwright.TimeoutError: Error {
   message='Timeout 30000ms exceeded.
   name='TimeoutError
   stack='TimeoutError: Timeout 30000ms exceeded.
-    at ProgressController.run (/private/var/folders/dz/52ys4n551gzc_p0zn75phrv40000gn/T/playwright-java-6951284551139637895/package/lib/server/progress.js:78:26)
-    at Frame.waitForSelector (/private/var/folders/dz/52ys4n551gzc_p0zn75phrv40000gn/T/playwright-java-6951284551139637895/package/lib/server/frames.js:619:23)
-    at FrameDispatcher.waitForSelector (/private/var/folders/dz/52ys4n551gzc_p0zn75phrv40000gn/T/playwright-java-6951284551139637895/package/lib/server/dispatchers/frameDispatcher.js:106:103)
-    at FrameDispatcher._handleCommand (/private/var/folders/dz/52ys4n551gzc_p0zn75phrv40000gn/T/playwright-java-6951284551139637895/package/lib/server/dispatchers/dispatcher.js:94:40)
-    at DispatcherConnection.dispatch (/private/var/folders/dz/52ys4n551gzc_p0zn75phrv40000gn/T/playwright-java-6951284551139637895/package/lib/server/dispatchers/dispatcher.js:361:39)
+    at ProgressController.run (/private/var/folders/dz/52ys4n551gzc_p0zn75phrv40000gn/T/playwright-java-16190611296885843121/package/lib/server/progress.js:78:26)
+    at Frame.waitForSelector (/private/var/folders/dz/52ys4n551gzc_p0zn75phrv40000gn/T/playwright-java-16190611296885843121/package/lib/server/frames.js:619:23)
+    at FrameDispatcher.waitForSelector (/private/var/folders/dz/52ys4n551gzc_p0zn75phrv40000gn/T/playwright-java-16190611296885843121/package/lib/server/dispatchers/frameDispatcher.js:106:103)
+    at FrameDispatcher._handleCommand (/private/var/folders/dz/52ys4n551gzc_p0zn75phrv40000gn/T/playwright-java-16190611296885843121/package/lib/server/dispatchers/dispatcher.js:94:40)
+    at DispatcherConnection.dispatch (/private/var/folders/dz/52ys4n551gzc_p0zn75phrv40000gn/T/playwright-java-16190611296885843121/package/lib/server/dispatchers/dispatcher.js:361:39)
 }
 Call log:
-- waiting for locator("text=Phone cases by model").first()
+- waiting for locator("a[href*='/products/']").first().first()
 
 	at com.microsoft.playwright.impl.Connection.dispatch(Connection.java:254)
 	at com.microsoft.playwright.impl.Connection.processOneMessage(Connection.java:211)
@@ -61,7 +61,7 @@ Call log:
 	at com.microsoft.playwright.impl.LocatorImpl.withElement(LocatorImpl.java:84)
 	at com.microsoft.playwright.impl.LocatorImpl.scrollIntoViewIfNeeded(LocatorImpl.java:476)
 	at com.microsoft.playwright.Locator.scrollIntoViewIfNeeded(Locator.java:4378)
-	at steps.CasekaroSteps.i_search_for_in_the_phone_models_search_box(CasekaroSteps.java:44)
+	at steps.CasekaroSteps.i_click_on_the_first_product_card(CasekaroSteps.java:168)
 	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
 	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
 	at io.cucumber.java.Invoker.doInvoke(Invoker.java:66)

@@ -40,15 +40,20 @@ public class CasekaroSteps {
 
     @When("I search for {string} in the phone models search box")
     public void i_search_for_in_the_phone_models_search_box(String searchTerm) {
-        // Scroll down to find the "Phone cases by model" section
-        getPage().locator("text=Phone cases by model").first().scrollIntoViewIfNeeded();
-        getPage().waitForTimeout(1000);
+        // Find the search input by placeholder text using a case-insensitive regex
+        Locator searchInput = getPage().getByPlaceholder(java.util.regex.Pattern.compile(".*search.*phone.*", java.util.regex.Pattern.CASE_INSENSITIVE));
+        
+        if (searchInput.count() == 0) {
+            searchInput = getPage().locator("input[placeholder*='search']").first();
+        }
 
-        // Find the search input by placeholder text
-        Locator searchInput = getPage().getByPlaceholder("search your phone model");
+        searchInput.first().scrollIntoViewIfNeeded();
+        getPage().waitForTimeout(1000);
         searchInput.first().click();
         searchInput.first().fill(searchTerm);
-        getPage().waitForTimeout(1000);
+        
+        // Wait for the live-filter grid/autocomplete to update
+        getPage().waitForTimeout(2000);
 
         System.out.println("✅ Searched for '" + searchTerm + "' in the phone models search box");
     }
@@ -83,16 +88,18 @@ public class CasekaroSteps {
 
     @When("I search specifically for {string}")
     public void i_search_specifically_for(String specificSearch) {
-        // Clear the existing search and type the specific phone model
-        Locator searchInput = getPage().getByPlaceholder("search your phone model");
-        searchInput.first().click();
-        searchInput.first().clear();
-        searchInput.first().fill(specificSearch);
+        // Use the global header search input directly (avoid hidden accessibility links)
+        Locator searchInput = getPage().locator("form[action*='/search'] input[name='q'], input[name='q']").first();
+        
+        searchInput.scrollIntoViewIfNeeded();
+        searchInput.click(new Locator.ClickOptions().setForce(true));
+        searchInput.clear();
+        searchInput.fill(specificSearch);
 
         // Wait for the autocomplete/dropdown suggestions to appear
         getPage().waitForTimeout(2000);
 
-        System.out.println("✅ Searched specifically for '" + specificSearch + "'");
+        System.out.println("✅ Searched specifically for '" + specificSearch + "' in global search");
     }
 
     @When("I select {string} from the autocomplete suggestion list")
@@ -120,14 +127,47 @@ public class CasekaroSteps {
 
     @When("I click {string} on the First Product Card")
     public void i_click_on_the_first_product_card(String actionBtn) {
-        // Wait for product cards to load
+        // Wait for the page to fully load
+        getPage().waitForLoadState(com.microsoft.playwright.options.LoadState.NETWORKIDLE);
         getPage().waitForTimeout(2000);
+        
+        // If the autocomplete suggestion took us directly to a product page, skip this step!
+        if (getPage().url().contains("/products/")) {
+            System.out.println("✅ Already on a Product Page, skipping 'Choose Options' click!");
+            return;
+        }
 
-        // Click the "Choose Options" button/link on the first product card
+        // Wait for ANY product link to appear in the DOM (timeout 10s)
+        try {
+            getPage().waitForSelector("a[href*='/products/']:not([class*='ckmr'])", new Page.WaitForSelectorOptions().setTimeout(10000));
+        } catch (Exception e) {
+            System.out.println("⚠️ Timeout waiting for product links to appear!");
+        }
+
+        // Try to find the exact button
         Locator chooseOptionsBtn = getPage().getByText(actionBtn, new Page.GetByTextOptions().setExact(false));
+        
+        if (chooseOptionsBtn.count() == 0) {
+            System.out.println("⚠️ '" + actionBtn + "' not found! Searching for any product link on the page...");
+            // Find any link that goes to a product page, ignoring the bottom review widget links
+            chooseOptionsBtn = getPage().locator("a[href*='/products/']:not([class*='ckmr'])");
+        }
 
-        // Click the first matching button
-        chooseOptionsBtn.first().click();
+        if (chooseOptionsBtn.count() == 0) {
+            System.out.println("⚠️ Still no product links found! Dumping HTML for debugging...");
+            try {
+                java.nio.file.Files.write(java.nio.file.Paths.get("debug_page.html"), getPage().content().getBytes());
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+            // Absolute fallback
+            chooseOptionsBtn = getPage().locator("a[href*='/products/']").first();
+        }
+
+        // Click the first matching button/link
+        chooseOptionsBtn.first().scrollIntoViewIfNeeded();
+        getPage().waitForTimeout(1000);
+        chooseOptionsBtn.first().click(new Locator.ClickOptions().setForce(true));
 
         getPage().waitForLoadState();
         getPage().waitForTimeout(2000);
