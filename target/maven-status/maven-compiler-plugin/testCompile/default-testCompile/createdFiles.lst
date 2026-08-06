@@ -1,2 +1,3 @@
 runner/TestRunner.class
+hooks/Hooks.class
 steps/CasekaroSteps.class
