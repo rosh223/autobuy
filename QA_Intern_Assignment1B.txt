@@ -1,0 +1,36 @@
+Website : https://casekaro.com/
+
+Steps to perform:
+	•	Navigate to website
+	•	Click on "Mobile Covers" from the Top Navigation Menu
+	•	Scroll down on the same page and you will see - Phone cases by model and the search box (Named search you phone model..),Now click on search button and type Apple
+	•	Add negative validation for other brands to not be visible after search
+	•	Search for "iPhone 16 Pro" in the Phone Model Search Box , Wait for the autocomplete/dropdown suggestion list to appear, From the dropdown, click specifically on "iPhone 16 Pro" — NOT "iPhone 16 Pro Max”
+	•	Click "Choose Options" on the First Product Card
+	•	Each item will have 3 materials (Understand the 3 Material Variants Available per Product)
+	•	Hard
+	•	Soft
+	•	Glass
+	•	Add all 3 materials for same case in cart
+	•	Open cart
+	•	Validate all 3 items are added in cart
+	•	Print the price of all items with details in console
+	•	Material
+	•	Price
+	•	Link
+Note:
+	•	Assignment to be written in Java and Playwright.
+	•	Avoid using try catch
+	•	Add assertions for validations
+	•	Make sure to add cucumber Feature file.
+ 
+
+
+
+
+Ss for ref:
+
+
+
+
+
