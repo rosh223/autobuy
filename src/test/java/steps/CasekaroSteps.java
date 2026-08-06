@@ -79,22 +79,62 @@ public class CasekaroSteps {
         System.out.println("✅ Negative validation passed: Other brands are not visible after searching Apple");
     }
 
-    // ======================== PHASE 3 STEPS (Placeholder) ========================
+    // ======================== PHASE 3 STEPS ========================
 
     @When("I search specifically for {string}")
     public void i_search_specifically_for(String specificSearch) {
-        System.out.println("Step: Search specifically for - " + specificSearch);
+        // Clear the existing search and type the specific phone model
+        Locator searchInput = getPage().getByPlaceholder("search your phone model");
+        searchInput.first().click();
+        searchInput.first().clear();
+        searchInput.first().fill(specificSearch);
+
+        // Wait for the autocomplete/dropdown suggestions to appear
+        getPage().waitForTimeout(2000);
+
+        System.out.println("✅ Searched specifically for '" + specificSearch + "'");
     }
 
     @When("I select {string} from the autocomplete suggestion list")
     public void i_select_from_the_autocomplete_suggestion_list(String suggestion) {
-        System.out.println("Step: Select suggestion - " + suggestion);
+        // Wait for dropdown suggestions to be visible
+        getPage().waitForTimeout(1000);
+
+        // Look for the exact text match in the autocomplete suggestions
+        // Use getByText with exact match to avoid clicking "iPhone 16 Pro Max"
+        Locator suggestionItem = getPage().getByText(suggestion, new Page.GetByTextOptions().setExact(true));
+
+        // If multiple matches, click the one inside the dropdown/autocomplete area
+        if (suggestionItem.count() > 1) {
+            // Click the suggestion that is inside a dropdown/list context
+            suggestionItem.first().click();
+        } else {
+            suggestionItem.click();
+        }
+
+        getPage().waitForLoadState();
+        getPage().waitForTimeout(2000);
+
+        System.out.println("✅ Selected '" + suggestion + "' from the autocomplete suggestion list");
     }
 
     @When("I click {string} on the First Product Card")
     public void i_click_on_the_first_product_card(String actionBtn) {
-        System.out.println("Step: Click - " + actionBtn);
+        // Wait for product cards to load
+        getPage().waitForTimeout(2000);
+
+        // Click the "Choose Options" button/link on the first product card
+        Locator chooseOptionsBtn = getPage().getByText(actionBtn, new Page.GetByTextOptions().setExact(false));
+
+        // Click the first matching button
+        chooseOptionsBtn.first().click();
+
+        getPage().waitForLoadState();
+        getPage().waitForTimeout(2000);
+
+        System.out.println("✅ Clicked '" + actionBtn + "' on the First Product Card");
     }
+
 
     // ======================== PHASE 4 STEPS (Placeholder) ========================
 
