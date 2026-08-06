@@ -1,103 +1,72 @@
-# Casekaro QA Automation Assignment
+# Casekaro Playwright Automation (QA Intern Assignment 1B)
 
-This repository contains an automated End-to-End (E2E) testing framework developed for the Casekaro QA Intern Assignment 1B. It validates the complete purchase journey on the Casekaro website, from navigation and search down to adding multiple product material variants into the shopping cart.
+This repository contains an automated UI testing suite for Casekaro (casekaro.com) built entirely in **Java** and **Playwright**. 
 
-## 🚀 Tech Stack
+## Assignment Scope
+The script automates the full e-commerce Cart flow, specifically solving for dynamic Vue.js frontend state synchronization and Cloudflare Bot Protections without relying on brittle `Thread.sleep()` or `try-catch` fallbacks.
 
-- **Language:** Java 11
-- **Automation Tool:** [Playwright for Java](https://playwright.dev/java/)
-- **BDD Framework:** [Cucumber](https://cucumber.io/) (Gherkin syntax)
-- **Build Tool:** Maven
-- **Assertions:** Native Java assertions (`assert`)
+**Scenario Covered:**
+1. Navigate to casekaro.com
+2. Access "Mobile Covers" via the top navigation menu.
+3. Scroll and interact with the "Phone model" specific search.
+4. **Negative Validation**: Confirm rival brands (Samsung, OnePlus, etc.) do not appear when searching "Apple".
+5. Search specifically for "iPhone 16 Pro" and strictly select it from the autocomplete dropdown (explicitly avoiding the 'Max' variant).
+6. Click into the first product.
+7. Select three distinct material variants (Hard, Soft, Glass).
+8. Ensure front-end state hydration completes before sequentially adding all three variants to the cart.
+9. Open the cart and assert the total item count is exactly 3.
+10. Extract and print the **Material**, **Price**, and **Link** of all items to the console.
 
----
+## Architecture & Technology Stack
+- **Language**: Java 11
+- **Automation Framework**: Microsoft Playwright (Java)
+- **BDD Framework**: Cucumber (JUnit 4 Runner)
+- **Build Tool**: Maven
 
-## 🎯 Test Scenario Covered
+## Critical Technical Challenges Solved
 
-The automation script executes the following exact flow on `https://casekaro.com/`:
-1. Navigates to the homepage.
-2. Clicks on **"Mobile Covers"** from the Top Navigation Menu.
-3. Scrolls down to the phone models search box and searches for **"Apple"**.
-4. Validates negatively that other brands (Samsung, OnePlus, Vivo, Oppo, etc.) are **not** visible.
-5. Performs a global search for **"iPhone 16 Pro"** and bypasses dynamic popups/empty collections by pressing Enter.
-6. Selects **"iPhone 16 Pro"** from the global search results.
-7. Clicks **"Choose Options"** on the first product card.
-8. Automates the addition of all three material variants (**Hard, Soft, and Glass**) of the exact same case to the cart by directly communicating with the headless Shopify DOM structure.
-9. Opens the cart and **validates that exactly 3 distinct items are present**.
-10. Prints the `Material`, `Price`, and `Link` of all 3 items to the console.
+### 1. Dynamic DOM & Vue.js Race Conditions
+Casekaro relies on a reactive JS framework (Vue.js/Shopify). When a user clicks a variant label (e.g., "Soft"), the UI updates instantly, but the underlying `<form>` payload is updated asynchronously via Javascript.
+**Solution**: Built a custom `waitForFunction` that actively polls the DOM and halts the script until the `<input type="hidden" name="id">` inside the primary product form perfectly matches the expected Variant ID. This guarantees no race conditions and no duplicate additions.
 
----
+### 2. Aggressive Anti-Bot Mechanisms
+Direct POST requests to Shopify's `/cart/add.js` API returned `503 Service Unavailable` due to strict bot mitigation.
+**Solution**: The script is strictly constrained to imitating human interaction via the UI DOM tree, bypassing backend protections entirely.
 
-## ⚙️ Prerequisites
+### 3. Theme Obfuscation & "Quick Buy" Shadowing
+The DOM contains dozens of hidden "Add to Cart" buttons dynamically injected by recommendation algorithms.
+**Solution**: Replaced generic visibility locators with highly structural CSS paths (`#main-product form[action*='/cart/add'] button[type='submit']`) to bypass hidden modals and strictly target the primary product form. Cart item parsing leverages generic DOM tree traversal instead of brittle theme-specific CSS classes.
 
-Before you begin, ensure you have the following installed on your machine:
-- **Java Development Kit (JDK) 11** or higher
-- **Maven** (Apache Maven 3.6.0+)
-- An IDE such as IntelliJ IDEA, Eclipse, or VS Code (optional but recommended)
+## Prerequisites
+- Java JDK 11+
+- Apache Maven
 
----
-
-## 🛠️ How to Run the Tests
-
-To run the full BDD test suite from your terminal, execute the following Maven command at the root of the project directory:
+## How to Execute the Tests
+To run the automated Cucumber test suite from the terminal:
 
 ```bash
 mvn clean test -Dtest=TestRunner
 ```
 
-### Viewing the Output
-Once the test starts, it will automatically download the necessary Playwright browser binaries (Chromium, Firefox, WebKit) if they are not already cached.
-The execution will run headlessly (or headed, depending on the configuration in `Hooks.java`) and output the live logs directly to the console. 
-
-At the very end of a successful run, the script prints the parsed items present in the cart, outputting their Material, Price, and URL Link:
-```text
+## Expected Console Output
+Upon successful execution, the script will output the validation steps and dynamically extract the Cart details like so:
+```
 ======================================================================
                      CART ITEM DETAILS
 ======================================================================
 
 📦 Item 1:
-   Material : Glass
-   Price    : Rs. 249.00
-   Link     : https://casekaro.com/products/...
+   Material : Hard
+   Price    : ₹ 249.00
+   Link     : https://casekaro.com/products/example-link-1
 
 📦 Item 2:
    Material : Soft
-   Price    : Rs. 149.00
-   Link     : https://casekaro.com/products/...
+   Price    : ₹ 299.00
+   Link     : https://casekaro.com/products/example-link-2
 
 📦 Item 3:
-   Material : Hard
-   Price    : Rs. 99.00
-   Link     : https://casekaro.com/products/...
+   Material : Glass
+   Price    : ₹ 399.00
+   Link     : https://casekaro.com/products/example-link-3
 ```
-
----
-
-## 📁 Project Structure
-
-```text
-autobuy/
-├── src/
-│   ├── test/
-│   │   ├── java/
-│   │   │   ├── hooks/
-│   │   │   │   └── Hooks.java         # Playwright browser initialization & teardown
-│   │   │   ├── runner/
-│   │   │   │   └── TestRunner.java    # Cucumber JUnit test runner configuration
-│   │   │   └── steps/
-│   │   │       └── CasekaroSteps.java # Step definitions containing the Playwright logic
-│   │   └── resources/
-│   │       └── features/
-│   │           └── CasekaroCart.feature # Gherkin feature file defining the scenario
-├── pom.xml                            # Maven dependencies (Playwright, Cucumber, JUnit)
-└── README.md                          # This file!
-```
-
----
-
-## 🧠 Handling Headless Defenses (Engineering Notes)
-
-Casekaro's website implements several dynamic elements that typically break standard UI automation. This script incorporates robust bypass mechanisms:
-* **Aggressive Popups:** Casekaro randomly spawns newsletter and WhatsApp chat overlays that intercept pointer events. The script injects JavaScript to instantly remove these overlays from the DOM before interacting with elements.
-* **React/Vue State Ignorance:** Simulating a click on Shopify material labels (`Hard`/`Soft`/`Glass`) sometimes fails to trigger the underlying native radio button `change` event, resulting in duplicate items added to the cart instead of different variants. The script entirely bypasses their frontend UI framework by locating the exact Shopify Variant IDs within the DOM and directly injecting them into the hidden cart submission form just before clicking "Add to Cart". 
-* **Custom AJAX Cart Drawer:** Casekaro uses a dynamic slide-out cart instead of a separate `/cart` page. Validations dynamically wait for the drawer to render and cleanly parse the line-item removal buttons to guarantee accurate item counts.
