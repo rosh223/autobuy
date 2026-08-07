@@ -183,7 +183,8 @@ public class CasekaroPage {
         Locator cartRows = page.locator("cart-remove-button, button:has-text('Remove'), a:has-text('Remove')");
         if (cartRows.count() == 0) cartRows = page.locator(".cart-item, .drawer__item");
         
-        for (int i = 0; i < cartRows.count(); i++) {
+        int itemNumber = 1;
+        for (int i = cartRows.count() - 1; i >= 0; i--) {
             String rowData = (String) cartRows.nth(i).evaluate("el => {" +
                 "let parent = el.closest('tr, cart-item, .cart-item, .cart__row, [data-cart-item], .drawer__item, li');" +
                 "if (!parent) parent = el.parentElement.parentElement;" +
@@ -209,10 +210,12 @@ public class CasekaroPage {
                 if (m.find()) price = m.group(); // Get real price if first is strikethrough
             }
 
-            System.out.println("📦 Item " + (i + 1) + ":");
+            System.out.println("📦 Item " + itemNumber + ":");
             System.out.println("   Material : " + material);
             System.out.println("   Price    : " + price);
             System.out.println("   Link     : " + link + "\n");
+            
+            itemNumber++;
         }
     }
 }

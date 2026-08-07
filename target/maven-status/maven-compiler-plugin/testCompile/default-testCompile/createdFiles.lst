@@ -1,6 +1,0 @@
-DebugScreenshot.class
-runner/TestRunner.class
-DebugHTML.class
-steps/CasekaroSteps.class
-pages/CasekaroPage.class
-hooks/Hooks.class
