@@ -16,20 +16,20 @@ public class CasekaroSteps {
         getCasekaroPage().navigateToHome();
     }
 
-    @When("I search for {string} in the global search bar")
-    public void i_search_for_in_the_global_search_bar(String query) {
-        getCasekaroPage().searchGlobal(query);
+    @When("I navigate directly to the mobile covers page")
+    public void i_navigate_directly_to_the_mobile_covers_page() {
+        getCasekaroPage().navigateToMobileCoversPage();
     }
 
-    @Then("other brands should not be visible in the search results")
-    public void other_brands_should_not_be_visible_in_the_search_results() {
-        String[] otherBrands = {"Samsung", "OnePlus", "Vivo", "Oppo", "Xiaomi", "Realme", "Redmi", "Motorola"};
-        getCasekaroPage().validateCompetitorsNotVisible(otherBrands);
+    @Then("other brands should not be visible in the filtered results")
+    public void other_brands_should_not_be_visible_in_the_filtered_results() {
+        String[] otherBrands = {"Samsung", "OnePlus", "Vivo", "Oppo", "Xiaomi", "Realme", "Redmi", "Motorola", "Asus", "Google", "Honor", "Infinix", "IQOO"};
+        getCasekaroPage().validateCompetitorsNotVisibleInFilter(otherBrands);
     }
 
-    @When("I click on {string} from the Top Navigation Menu")
+    @When("I click on {string} from the top navigation menu")
     public void i_click_on_from_the_top_navigation_menu(String menuName) {
-        getCasekaroPage().clickTopNavMenu(menuName);
+        getCasekaroPage().clickTopNavigationMenu(menuName);
     }
 
     @When("I search for {string} in the specific model search box")

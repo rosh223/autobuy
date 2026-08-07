@@ -25,7 +25,7 @@ public class Hooks {
                         .setViewportSize(1440, 900)
         );
         page = context.newPage();
-        page.setDefaultTimeout(30000); // 30 second timeout for all actions
+        page.setDefaultTimeout(60000); // 60 second timeout to allow time to manually solve Captcha
     }
 
     @After

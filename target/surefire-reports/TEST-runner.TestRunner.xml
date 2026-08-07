@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="runner.TestRunner" time="49.675" tests="1" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="runner.TestRunner" time="48.12" tests="1" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="26"/>
     <property name="sun.jnu.encoding" value="UTF-8"/>
@@ -12,7 +12,7 @@
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="user.country" value="IN"/>
     <property name="sun.boot.library.path" value="/opt/homebrew/Cellar/openjdk/26.0.1/libexec/openjdk.jdk/Contents/Home/lib"/>
-    <property name="sun.java.command" value="/Users/roshansingh/Developer/autobuy/target/surefire/surefirebooter-20260807020421321_3.jar /Users/roshansingh/Developer/autobuy/target/surefire 2026-08-07T02-04-21_249-jvmRun1 surefire-20260807020421321_1tmp surefire_0-20260807020421321_2tmp"/>
+    <property name="sun.java.command" value="/Users/roshansingh/Developer/autobuy/target/surefire/surefirebooter-20260807200455590_3.jar /Users/roshansingh/Developer/autobuy/target/surefire 2026-08-07T20-04-55_545-jvmRun1 surefire-20260807200455590_1tmp surefire_0-20260807200455590_2tmp"/>
     <property name="http.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="jdk.debug" value="release"/>
     <property name="surefire.test.class.path" value="/Users/roshansingh/Developer/autobuy/target/test-classes:/Users/roshansingh/Developer/autobuy/target/classes:/Users/roshansingh/.m2/repository/com/microsoft/playwright/playwright/1.44.0/playwright-1.44.0.jar:/Users/roshansingh/.m2/repository/com/google/code/gson/gson/2.10.1/gson-2.10.1.jar:/Users/roshansingh/.m2/repository/org/opentest4j/opentest4j/1.3.0/opentest4j-1.3.0.jar:/Users/roshansingh/.m2/repository/com/microsoft/playwright/driver/1.44.0/driver-1.44.0.jar:/Users/roshansingh/.m2/repository/com/microsoft/playwright/driver-bundle/1.44.0/driver-bundle-1.44.0.jar:/Users/roshansingh/.m2/repository/io/cucumber/cucumber-java/7.18.0/cucumber-java-7.18.0.jar:/Users/roshansingh/.m2/repository/io/cucumber/cucumber-core/7.18.0/cucumber-core-7.18.0.jar:/Users/roshansingh/.m2/repository/io/cucumber/cucumber-gherkin/7.18.0/cucumber-gherkin-7.18.0.jar:/Users/roshansingh/.m2/repository/io/cucumber/cucumber-gherkin-messages/7.18.0/cucumber-gherkin-messages-7.18.0.jar:/Users/roshansingh/.m2/repository/io/cucumber/gherkin/28.0.0/gherkin-28.0.0.jar:/Users/roshansingh/.m2/repository/io/cucumber/messages/24.1.0/messages-24.1.0.jar:/Users/roshansingh/.m2/repository/io/cucumber/testng-xml-formatter/0.1.0/testng-xml-formatter-0.1.0.jar:/Users/roshansingh/.m2/repository/io/cucumber/query/12.2.0/query-12.2.0.jar:/Users/roshansingh/.m2/repository/io/cucumber/tag-expressions/6.1.0/tag-expressions-6.1.0.jar:/Users/roshansingh/.m2/repository/io/cucumber/cucumber-expressions/17.1.0/cucumber-expressions-17.1.0.jar:/Users/roshansingh/.m2/repository/io/cucumber/datatable/7.18.0/datatable-7.18.0.jar:/Users/roshansingh/.m2/repository/io/cucumber/cucumber-plugin/7.18.0/cucumber-plugin-7.18.0.jar:/Users/roshansingh/.m2/repository/io/cucumber/docstring/7.18.0/docstring-7.18.0.jar:/Users/roshansingh/.m2/repository/io/cucumber/html-formatter/21.3.1/html-formatter-21.3.1.jar:/Users/roshansingh/.m2/repository/io/cucumber/junit-xml-formatter/0.4.0/junit-xml-formatter-0.4.0.jar:/Users/roshansingh/.m2/repository/io/cucumber/ci-environment/10.0.1/ci-environment-10.0.1.jar:/Users/roshansingh/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar:/Users/roshansingh/.m2/repository/io/cucumber/cucumber-junit/7.18.0/cucumber-junit-7.18.0.jar:/Users/roshansingh/.m2/repository/junit/junit/4.13.2/junit-4.13.2.jar:/Users/roshansingh/.m2/repository/org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar:"/>
@@ -29,7 +29,7 @@
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
     <property name="apple.awt.application.name" value="ForkedBooter"/>
-    <property name="surefire.real.class.path" value="/Users/roshansingh/Developer/autobuy/target/surefire/surefirebooter-20260807020421321_3.jar"/>
+    <property name="surefire.real.class.path" value="/Users/roshansingh/Developer/autobuy/target/surefire/surefirebooter-20260807200455590_3.jar"/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="ftp.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="java.runtime.version" value="26.0.1"/>
@@ -59,17 +59,19 @@
     <property name="socksNonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="java.class.version" value="70.0"/>
   </properties>
-  <testcase name="Add three different material variants of a phone case to the cart" classname="Casekaro Cart Functionality" time="49.447">
+  <testcase name="Add three different material variants of a phone case to the cart" classname="Casekaro Cart Functionality" time="47.905">
     <system-out><![CDATA[
 Scenario: Add three different material variants of a phone case to the cart &amp#27;[90m# src/test/resources/features/CasekaroCart.feature:3&amp#27;[0m
 ✅ Navigated to Casekaro website
   &amp#27;[32mGiven &amp#27;[0m&amp#27;[32mI navigate to the casekaro website&amp#27;[0m                                  &amp#27;[90m# steps.CasekaroSteps.i_navigate_to_the_casekaro_website()&amp#27;[0m
-✅ Typed 'Apple' into global search bar and triggered autocomplete
-  &amp#27;[32mWhen &amp#27;[0m&amp#27;[32mI search for &amp#27;[0m&amp#27;[32m&amp#27;[1m"Apple"&amp#27;[0m&amp#27;[32m in the global search bar&amp#27;[0m                        &amp#27;[90m# steps.CasekaroSteps.i_search_for_in_the_global_search_bar(java.lang.String)&amp#27;[0m
-✅ Negative validation passed: Competitor brands are not visible after searching Apple
-  &amp#27;[32mThen &amp#27;[0m&amp#27;[32mother brands should not be visible in the search results&amp#27;[0m             &amp#27;[90m# steps.CasekaroSteps.other_brands_should_not_be_visible_in_the_search_results()&amp#27;[0m
-✅ Navigated to iPhone Category
-  &amp#27;[32mWhen &amp#27;[0m&amp#27;[32mI click on &amp#27;[0m&amp#27;[32m&amp#27;[1m"iPhone"&amp#27;[0m&amp#27;[32m from the Top Navigation Menu&amp#27;[0m                     &amp#27;[90m# steps.CasekaroSteps.i_click_on_from_the_top_navigation_menu(java.lang.String)&amp#27;[0m
+✅ Navigated directly to mobile covers page
+  &amp#27;[32mWhen &amp#27;[0m&amp#27;[32mI navigate directly to the mobile covers page&amp#27;[0m                        &amp#27;[90m# steps.CasekaroSteps.i_navigate_directly_to_the_mobile_covers_page()&amp#27;[0m
+✅ Searched for 'Apple' in specific local filter box
+  &amp#27;[32mAnd &amp#27;[0m&amp#27;[32mI search for &amp#27;[0m&amp#27;[32m&amp#27;[1m"Apple"&amp#27;[0m&amp#27;[32m in the specific model search box&amp#27;[0m                 &amp#27;[90m# steps.CasekaroSteps.i_search_for_in_the_specific_model_search_box(java.lang.String)&amp#27;[0m
+✅ Negative validation passed: Competitor brands are not visible in the filtered results
+  &amp#27;[32mThen &amp#27;[0m&amp#27;[32mother brands should not be visible in the filtered results&amp#27;[0m           &amp#27;[90m# steps.CasekaroSteps.other_brands_should_not_be_visible_in_the_filtered_results()&amp#27;[0m
+✅ Navigated to the 'iPhone' collection via top header menu
+  &amp#27;[32mAnd &amp#27;[0m&amp#27;[32mI click on &amp#27;[0m&amp#27;[32m&amp#27;[1m"iPhone"&amp#27;[0m&amp#27;[32m from the top navigation menu&amp#27;[0m                      &amp#27;[90m# steps.CasekaroSteps.i_click_on_from_the_top_navigation_menu(java.lang.String)&amp#27;[0m
 ✅ Searched for 'iPhone 16 Pro' in specific local filter box
   &amp#27;[32mAnd &amp#27;[0m&amp#27;[32mI search for &amp#27;[0m&amp#27;[32m&amp#27;[1m"iPhone 16 Pro"&amp#27;[0m&amp#27;[32m in the specific model search box&amp#27;[0m         &amp#27;[90m# steps.CasekaroSteps.i_search_for_in_the_specific_model_search_box(java.lang.String)&amp#27;[0m
 ✅ Clicked exact model link for 'iPhone 16 Pro'

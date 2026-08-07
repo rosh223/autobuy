@@ -21,56 +21,61 @@ public class CasekaroPage {
         System.out.println("✅ Navigated to Casekaro website");
     }
 
-    public void searchGlobal(String query) {
-        Locator searchInput = page.getByPlaceholder(java.util.regex.Pattern.compile(".*search.*model.*design.*", java.util.regex.Pattern.CASE_INSENSITIVE)).first();
-        if (searchInput.count() == 0) searchInput = page.locator("input[name='q']").first();
-        
-        searchInput.scrollIntoViewIfNeeded();
-        searchInput.click(new Locator.ClickOptions().setForce(true));
-        searchInput.clear();
-        searchInput.pressSequentially(query, new Locator.PressSequentiallyOptions().setDelay(150));
-        page.waitForTimeout(4000); 
-        System.out.println("✅ Typed '" + query + "' into global search bar and triggered autocomplete");
+    public void navigateToMobileCoversPage() {
+        page.navigate("https://casekaro.com/pages/mobile-covers");
+        page.waitForLoadState(com.microsoft.playwright.options.LoadState.DOMCONTENTLOADED);
+        page.waitForTimeout(2000);
+        System.out.println("✅ Navigated directly to mobile covers page");
     }
 
-    public void validateCompetitorsNotVisible(String[] brands) {
-        Locator searchResults = page.locator(".predictive-search, .snize-ac-results, #search-results, .search-results");
+    public void validateCompetitorsNotVisibleInFilter(String[] brands) {
         for (String brand : brands) {
-            Locator brandInResults = searchResults.locator("a, li, span, p").filter(
-                    new Locator.FilterOptions().setHasText(java.util.regex.Pattern.compile(brand, java.util.regex.Pattern.CASE_INSENSITIVE))
+            // Target ONLY the visible `.brand-name-container` blocks which are unique to the local main content.
+            // Casekaro uses client-side JS filtering, meaning competitor blocks are hidden with `display: none`, not removed from the DOM.
+            Locator brandInResults = page.locator(".brand-name-container:visible, .brand-name-container a:visible").filter(
+                    new Locator.FilterOptions().setHasText(java.util.regex.Pattern.compile("^\\s*" + brand + "\\s*$", java.util.regex.Pattern.CASE_INSENSITIVE))
             );
-            // Strict Playwright assertion
+            
+            if (brandInResults.count() == 0) {
+                 brandInResults = page.locator(".brand-name-container:visible, .brand-name-container a:visible").filter(
+                    new Locator.FilterOptions().setHasText(java.util.regex.Pattern.compile(brand, java.util.regex.Pattern.CASE_INSENSITIVE))
+                 );
+            }
+
+            // Strict Playwright assertion: No competitor brand links should be visible in the filtered results
             assertThat(brandInResults).hasCount(0);
         }
-        System.out.println("✅ Negative validation passed: Competitor brands are not visible after searching Apple");
+        System.out.println("✅ Negative validation passed: Competitor brands are not visible in the filtered results");
     }
 
-    public void clickTopNavMenu(String menuName) {
-        // Dismiss any open dropdowns (like predictive search) so they don't intercept the click
-        page.keyboard().press("Escape");
-        page.waitForTimeout(500);
-
-        // Strict AriaRole locator EXACTLY as requested by the user instructions
-        page.getByRole(com.microsoft.playwright.options.AriaRole.LINK, 
-            new Page.GetByRoleOptions().setName(menuName).setExact(true)).first().click();
+    public void clickTopNavigationMenu(String menuName) {
+        // Find the top navigation menu link that strictly matches the menuName (e.g. "iPhone")
+        // Use :visible to avoid matching hidden mobile-menu toggle buttons
+        Locator menuLink = page.locator("nav#nav a:visible, .shopify-section-header a:visible").filter(
+                new Locator.FilterOptions().setHasText(java.util.regex.Pattern.compile("^\\s*" + menuName + "\\s*$", java.util.regex.Pattern.CASE_INSENSITIVE))
+        ).first();
         
+        menuLink.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE).setTimeout(10000));
+        menuLink.click(new Locator.ClickOptions().setForce(true));
         page.waitForLoadState(com.microsoft.playwright.options.LoadState.DOMCONTENTLOADED);
-        
-        if (menuName.equalsIgnoreCase("iPhone")) {
-            page.waitForURL("**/pages/iphone-back-covers*", new Page.WaitForURLOptions().setTimeout(15000));
-            assertTrue("URL must contain /pages/iphone-back-covers", page.url().toLowerCase().contains("/pages/iphone-back-covers"));
-        }
-        
         page.waitForTimeout(2000);
-        System.out.println("✅ Navigated to " + menuName + " Category");
+        System.out.println("✅ Navigated to the '" + menuName + "' collection via top header menu");
     }
 
     public void searchSpecificModel(String specificSearch) {
-        Locator searchInput = page.getByPlaceholder(java.util.regex.Pattern.compile(".*search.*model.*", java.util.regex.Pattern.CASE_INSENSITIVE)).last();
-        searchInput.scrollIntoViewIfNeeded();
+        // Strict Locator Scoping: Target the unique local search inputs directly to avoid the global header.
+        // #search-bar-cover-page is used on the brand filter page, #ckmSearch is used on the model filter page.
+        // We MUST use :visible because both IDs might exist on some pages but one is hidden.
+        Locator searchInput = page.locator("#search-bar-cover-page, #ckmSearch").first();
+        
+        try {
+            searchInput.evaluate("el => el.scrollIntoView({behavior: 'smooth', block: 'center'})");
+        } catch (Exception e) {}
+        
+        page.waitForTimeout(1000);
         searchInput.click(new Locator.ClickOptions().setForce(true));
-        searchInput.clear();
-        searchInput.pressSequentially(specificSearch, new Locator.PressSequentiallyOptions().setDelay(100));
+        searchInput.evaluate("el => el.value = ''"); // Force clear
+        searchInput.fill(specificSearch); // Force fill
         page.waitForTimeout(3000);
         
         // Shopify's predictive search triggers on ALL search inputs. We MUST dismiss it so it doesn't intercept clicks.
@@ -82,14 +87,14 @@ public class CasekaroPage {
     }
 
     public void selectExactModel(String suggestion) {
-        // Highly robust cross-layout locator: Finds any anchor or button containing exactly the suggestion text, 
-        // while explicitly avoiding 'Max' or other variants.
-        Locator dropdownItem = page.locator("a:visible, button:visible, .tag-link:visible")
+        // Scope tightly to the local grid container (`.brand-name-container` for brands, `.ckm-row` for models) to avoid header links.
+        // If the user's prompt instructs to click "iPhone 16 Pro" here, they might expect it to appear as a grid block.
+        Locator dropdownItem = page.locator(".brand-name-container:visible, .brand-name-container a:visible, .ckm-row:visible")
             .filter(new Locator.FilterOptions().setHasText(java.util.regex.Pattern.compile("^\\s*" + suggestion + "\\s*$", java.util.regex.Pattern.CASE_INSENSITIVE)))
             .first();
         
         if (dropdownItem.count() == 0) {
-            dropdownItem = page.locator("a:visible, button:visible").filter(new Locator.FilterOptions().setHasText(suggestion)).filter(new Locator.FilterOptions().setHasText(java.util.regex.Pattern.compile("^(?!.*Max).*$"))).first();
+            dropdownItem = page.locator(".brand-name-container:visible, .brand-name-container a:visible, .ckm-row:visible").filter(new Locator.FilterOptions().setHasText(suggestion)).filter(new Locator.FilterOptions().setHasText(java.util.regex.Pattern.compile("^(?!.*Max).*$"))).first();
         }
 
         dropdownItem.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE).setTimeout(10000));

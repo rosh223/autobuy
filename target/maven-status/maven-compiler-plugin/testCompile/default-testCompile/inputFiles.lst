@@ -1,15 +1,5 @@
-/Users/roshansingh/Developer/autobuy/src/test/java/CheckCart.java
-/Users/roshansingh/Developer/autobuy/src/test/java/CheckDropdown.java
-/Users/roshansingh/Developer/autobuy/src/test/java/DebugCart.java
-/Users/roshansingh/Developer/autobuy/src/test/java/DebugFilterScreenshot.java
-/Users/roshansingh/Developer/autobuy/src/test/java/DebugFullFlow.java
-/Users/roshansingh/Developer/autobuy/src/test/java/DebugHref.java
-/Users/roshansingh/Developer/autobuy/src/test/java/DebugNav.java
-/Users/roshansingh/Developer/autobuy/src/test/java/DebugNavVisibility.java
-/Users/roshansingh/Developer/autobuy/src/test/java/DebugProducts.java
+/Users/roshansingh/Developer/autobuy/src/test/java/DebugHTML.java
 /Users/roshansingh/Developer/autobuy/src/test/java/DebugScreenshot.java
-/Users/roshansingh/Developer/autobuy/src/test/java/DebugURL.java
-/Users/roshansingh/Developer/autobuy/src/test/java/DumpPage.java
 /Users/roshansingh/Developer/autobuy/src/test/java/hooks/Hooks.java
 /Users/roshansingh/Developer/autobuy/src/test/java/pages/CasekaroPage.java
 /Users/roshansingh/Developer/autobuy/src/test/java/runner/TestRunner.java

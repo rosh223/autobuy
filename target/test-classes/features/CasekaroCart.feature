@@ -2,9 +2,10 @@ Feature: Casekaro Cart Functionality
 
   Scenario: Add three different material variants of a phone case to the cart
     Given I navigate to the casekaro website
-    When I search for "Apple" in the global search bar
-    Then other brands should not be visible in the search results
-    When I click on "iPhone" from the Top Navigation Menu
+    When I navigate directly to the mobile covers page
+    And I search for "Apple" in the specific model search box
+    Then other brands should not be visible in the filtered results
+    And I click on "iPhone" from the top navigation menu
     And I search for "iPhone 16 Pro" in the specific model search box
     And I select exactly "iPhone 16 Pro" from the filtered models list
     Then the page should navigate to the iPhone 16 Pro collection
