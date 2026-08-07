@@ -68,10 +68,7 @@ public class CasekaroPage {
         // We MUST use :visible because both IDs might exist on some pages but one is hidden.
         Locator searchInput = page.locator("#search-bar-cover-page, #ckmSearch").first();
         
-        try {
-            searchInput.evaluate("el => el.scrollIntoView({behavior: 'smooth', block: 'center'})");
-        } catch (Exception e) {}
-        
+        searchInput.evaluate("el => el.scrollIntoView({behavior: 'smooth', block: 'center'})");
         page.waitForTimeout(1000);
         searchInput.click(new Locator.ClickOptions().setForce(true));
         searchInput.evaluate("el => el.value = ''"); // Force clear
