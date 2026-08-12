@@ -1,4 +1,4 @@
-# Casekaro Playwright Automation (QA Intern Assignment 1B)
+# Casekaro Playwright Automation 
 
 This repository contains an automated UI testing suite for Casekaro (casekaro.com) built entirely in **Java** and **Playwright**.
 
